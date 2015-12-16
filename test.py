@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import MySQLdb
+import numpy
 
 db = MySQLdb.connect("localhost","root","password","aol")
 

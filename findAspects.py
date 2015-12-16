@@ -1,5 +1,7 @@
 #!/usr/bin/python
 
+import pickle
+
 elist = {"":[]}
 ea = {"":""}
 enq = {"":0}
@@ -40,6 +42,10 @@ for (k,v) in ea.items():
 oFile = open('e-nq-na-a.txt', 'w')
 for (k,v) in ea.items():
 	oFile.write(k+"\t"+str(enq[k])+"\t"+str(len(v))+"\t"+str(v)+"\n")
+
+#oFile = open('e-nq-na-a_serialized.txt', 'w')
+#for (k,v) in ea.items():
+#	oFile.write(k+"\t"+str(enq[k])+"\t"+str(len(v))+"\t"+pickle.dumps(v)+"\n")
 
 
 
