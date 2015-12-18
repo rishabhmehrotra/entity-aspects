@@ -13,13 +13,14 @@ print sklearn.__version__
 model = gensim.models.word2vec.Word2Vec.load_word2vec_format('GoogleNews-vectors-negative300.bin', binary=True)
 
 c=0;
+oFile = open('e-aspect-cluster.txt', 'w')
 with open("e-nq-na-a.txt") as infile:
 	for line in infile:
 		c+=1
 		if c==1:
 			continue
-		if c==10:
-			break
+		if c%10000==0:
+			print c
 		e = line.split("\t")[0]
 		#a = set(literal_eval(line.split("\t")[3]))
 		a = eval(line.split("\t")[3])
@@ -43,7 +44,7 @@ with open("e-nq-na-a.txt") as infile:
 					vec = np.add(vec, vect)
 					tt+=1
 				except:
-					#print "error"
+					#print "or"
 					error+=1
 			if tt>1:
 				tt-=1
@@ -52,23 +53,29 @@ with open("e-nq-na-a.txt") as infile:
 			X.append(vec)
 			XS.append(aspect)
 			#print "added something, size right now: %d"%len(X)
-		if len(X)<20:
+		if len(X)<=20:
 			nC = 5
-		if len(X)>20 and len(X)<50:
+		if len(X)>20 and len(X)<=50:
 			nC = 10
-		if len(X)>50 and len(X)<100:
+		if len(X)>50 and len(X)<=100:
 			nC = 20
-		if len(X)>100 and len(X)<200:
+		if len(X)>100 and len(X)<=200:
 			nC = 40
 		if len(X)>200:
 			nC = 50
 		print "vectors found for %d elements "%len(X)
 		print "errors found: %d"%error
+		if len(X)<5:
+			nC = len(X)
 		kmeans_clustering = KMeans(n_clusters = nC)
 		idx = kmeans_clustering.fit_predict(X)
-		print idx
+		#print idx
 		count = len(idx)
+		aspectcluster = ""
 		for i in range(0,count-1):
-			print "%s\t%d" %(XS[i],idx[i])
+			#print "%s\t%d" %(XS[i],idx[i])
+			aspectcluster = aspectcluster + XS[i]+"____"+str(idx[i])+"\t"
+		aspectcluster = aspectcluster.replace("\n","")
+		oFile.write(e+"\t"+aspectcluster+"\n");
 
 

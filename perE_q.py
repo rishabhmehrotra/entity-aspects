@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-oFile = open('e-n-qList.txt', 'w')
+
 eqlist = {"":[]}
 eqlists = {"":""}
 en = {"":0}
@@ -30,6 +30,7 @@ with open("queryentity.txt") as infile:
 		if t%100000 ==0:
 			print t
 
+oFile = open('e-n-qList.txt', 'w')
 print "done with appending"
 t=0
 for (k,v) in eqlists.items():
